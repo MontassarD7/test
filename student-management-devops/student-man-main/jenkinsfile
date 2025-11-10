@@ -4,13 +4,17 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo 'Building...'
+                dir('student-management-devops/student-man-main') {
+                    sh 'mvn clean install'
+                }
             }
         }
 
         stage('Test') {
             steps {
-                echo 'Testing...'
+                dir('student-management-devops/student-man-main') {
+                    sh 'mvn test'
+                }
             }
         }
 
@@ -22,10 +26,12 @@ pipeline {
 
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv('SonarQube') {
-                    sh 'mvn clean verify sonar:sonar'
+                dir('student-management-devops/student-man-main') {
+                    withSonarQubeEnv('SonarQube') {
+                        sh 'mvn clean verify sonar:sonar'
+                    }
                 }
             }
         }
-    } // closes stages
-} // closes pipeline
+    }
+}
