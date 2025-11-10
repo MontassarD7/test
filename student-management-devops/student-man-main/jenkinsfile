@@ -4,35 +4,37 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo 'Building the project...'
+                dir('student-management-devops/student-man-main') {
+                    sh 'mvn clean install'
+                }
             }
         }
 
         stage('Test') {
             steps {
-                echo 'Running tests...'
-            }
-        }
-
-        stage('Deploy') {
-            steps {
-                echo 'Deploying application...'
+                dir('student-management-devops/student-man-main') {
+                    sh 'mvn test'
+                }
             }
         }
 
         stage('SonarQube Analysis') {
             steps {
-                echo 'Simulating SonarQube analysis...'
+                dir('student-management-devops/student-man-main') {
+                    withSonarQubeEnv('SonarQube') {
+                        sh 'mvn clean verify sonar:sonar'
+                    }
+                }
             }
         }
     }
 
     post {
         success {
-            echo 'Pipeline completed successfully!'
+            echo '✅ Pipeline completed successfully and SonarQube analysis sent!'
         }
         failure {
-            echo 'Pipeline failed!'
+            echo '❌ Pipeline failed. Check Jenkins logs for details.'
         }
     }
 }
