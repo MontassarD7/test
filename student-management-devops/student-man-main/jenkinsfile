@@ -4,13 +4,17 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo 'Building...'
+                dir('student-management-devops/student-man-main') {
+                    sh 'mvn clean install'
+                }
             }
         }
 
         stage('Test') {
             steps {
-                echo 'Testing...'
+                dir('student-management-devops/student-man-main') {
+                    sh 'mvn test'
+                }
             }
         }
 
@@ -21,12 +25,17 @@ pipeline {
         }
 
         stage('SonarQube Analysis') {
-    steps {
-        dir('student-management-devops/student-man-main') {
-            withSonarQubeEnv('SonarQube') {
-                sh 'mvn clean verify sonar:sonar'
+            steps {
+                dir('student-management-devops/student-man-main') {
+                    withSonarQubeEnv('SonarQube') {
+                        script {
+                            // Optional: use Jenkins Maven tool
+                            def mavenHome = tool name: "Maven", type: "maven"
+                            sh "${mavenHome}/bin/mvn clean package sonar:sonar"
+                        }
+                    }
+                }
             }
         }
     }
-} // closes stages
-} // closes pipeline
+}
