@@ -28,8 +28,10 @@ pipeline {
             steps {
                 dir('student-management-devops/student-man-main') {
                     withSonarQubeEnv('SonarQube') {
-                        def mavenHome = tool name: "Maven", type: "maven"
-                        sh "${mavenHome}/bin/mvn clean package sonar:sonar -DskipTests"
+                        script {
+                            def mavenHome = tool name: "Maven", type: "maven"
+                            sh "${mavenHome}/bin/mvn clean package sonar:sonar -DskipTests"
+                        }
                     }
                 }
             }
