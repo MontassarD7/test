@@ -25,6 +25,7 @@ pipeline {
                 dir('student-management-devops/student-man-main') {
                     withSonarQubeEnv('SonarQube') {
                         script {
+                            // Use the Maven tool installed in Jenkins
                             def mavenHome = tool name: "Maven", type: "maven"
                             sh "${mavenHome}/bin/mvn clean verify sonar:sonar"
                         }
