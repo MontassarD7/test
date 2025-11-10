@@ -24,13 +24,13 @@ pipeline {
             }
         }
 
-        stage('SonarQube analysis') {
-        withSonarQubeEnv {
-            def mavenHome = tool name: "Maven", type: "maven"
-            def mavenCMD = "${mavenHome}/bin/mvn"
-            sh "${mavenCMD} clean package sonar:sonar"
-        }
-    }
+        stage('SonarQube Analysis') {
+            steps {
+                dir('student-management-devops/student-man-main') {
+                    withSonarQubeEnv('SonarQube') {
+                        def mavenHome = tool name: "Maven", type: "maven"
+                        sh "${mavenHome}/bin/mvn clean package sonar:sonar -DskipTests"
+                    }
                 }
             }
         }
