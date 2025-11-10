@@ -24,9 +24,12 @@ pipeline {
             steps {
                 dir('student-management-devops/student-man-main') {
                     withSonarQubeEnv('SonarQube') {
-                        sh 'mvn clean verify sonar:sonar'
+                        script {
+                            def mavenHome = tool name: "Maven", type: "maven"
+                            sh "${mavenHome}/bin/mvn clean verify sonar:sonar"
+                        }
+                    }
+                }
             }
-        }
-    }
-} // closes stages
+        } // closes stages
 } // closes pipeline
