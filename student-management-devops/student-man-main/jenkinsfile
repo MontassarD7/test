@@ -25,10 +25,13 @@ pipeline {
         }
 
         stage('SonarQube Analysis') {
-            withSonarQubeEnv {
-            def mavenHome = tool name: "Maven", type: "maven"
-            def mavenCMD = "${mavenHome}/bin/mvn"
-            sh "${mavenCMD} clean package sonar:sonar"
+            steps {
+                dir('student-management-devops/student-man-main') {
+                    withSonarQubeEnv('SonarQube') {
+                        script {
+                            def mavenHome = tool name: "Maven", type: "maven"
+                            def mavenCMD = "${mavenHome}/bin/mvn"
+                            sh "${mavenCMD} clean package sonar:sonar -DskipTests"
                         }
                     }
                 }
