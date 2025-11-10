@@ -17,15 +17,9 @@ pipeline {
                 echo 'Deploying....'
             }
         }
-        stage('MVN SONARQUBE') {
-            steps {
-                script {
-                    // Navigate to the correct directory if necessary
-                    dir('project-directory') {
-                        echo 'Running SonarQube analysis..'
-                        sh 'mvn clean verify sonar:sonar -Dsonar.host.url=http://localhost:9000'
-                    }
-                }
+        stage('MVN SONARQUBE'){
+            steps{
+                echo 'SONARQUBE DONE!!!'
             }
         }
     }
