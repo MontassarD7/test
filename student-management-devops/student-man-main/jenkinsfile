@@ -21,10 +21,10 @@ pipeline {
         }
 
         stage('SonarQube Analysis') {
-    steps {
-        dir('student-management-devops/student-man-main') {
-            withSonarQubeEnv('SonarQube') {
-                sh 'mvn clean verify sonar:sonar'
+            steps {
+                dir('student-management-devops/student-man-main') {
+                    withSonarQubeEnv('SonarQube') {
+                        sh 'mvn clean verify sonar:sonar'
             }
         }
     }
