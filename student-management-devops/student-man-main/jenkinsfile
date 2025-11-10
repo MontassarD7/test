@@ -21,11 +21,12 @@ pipeline {
         }
 
         stage('SonarQube Analysis') {
-            steps {
-                withSonarQubeEnv('SonarQube') {
-                    sh 'mvn clean verify sonar:sonar'
-                }
+    steps {
+        dir('student-management-devops/student-man-main') {
+            withSonarQubeEnv('SonarQube') {
+                sh 'mvn clean verify sonar:sonar'
             }
         }
-    } // closes stages
+    }
+} // closes stages
 } // closes pipeline
