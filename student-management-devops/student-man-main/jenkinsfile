@@ -16,10 +16,15 @@ pipeline {
             steps {
                 echo 'Deploying....'
             }
+        }
         stage('MVN SONARQUBE') {
-    steps {
-        withSonarQubeEnv('SonarQube') {
-            sh 'mvn clean verify sonar:sonar'
+            steps {
+                script {
+                    // Add your SonarQube scan command here
+                    echo 'Running SonarQube analysis..'
+                    sh 'mvn clean verify sonar:sonar -Dsonar.host.url=http://localhost:9000'
+                }
+            }
         }
     }
 }
